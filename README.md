@@ -67,7 +67,7 @@ Function for comparing 2 items. Receives 2 arguments. Function has to:
 Example:
 
 ```js
-function fomparator(a, b) {
+function comparator(a, b) {
 	return a < b ? -1 : a > b ? 1 : 0;
 }
 ```
