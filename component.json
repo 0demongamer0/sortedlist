@@ -1,0 +1,28 @@
+{
+  "name": "sortedlist",
+  "repo": "darsain/sortedlist",
+  "description": "Extends darsain/list to create a sorted list.",
+  "version": "0.0.1",
+  "keywords": [
+    "array",
+    "list",
+    "sorted"
+  ],
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {
+    "darsain/list": "*",
+    "darsain/definer": "*",
+    "component/inherit": "*",
+    "component/bind": "*"
+  },
+  "development": {
+    "dependencies": {
+      "visionmedia/mocha": "*",
+      "component/assert": "*"
+    }
+  },
+  "license": "MIT"
+}
