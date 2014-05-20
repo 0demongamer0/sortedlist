@@ -7,16 +7,16 @@ var writableDescriptor = { writable: true };
 
 module.exports = SortedList;
 
-function SortedList(array, comparator) {
-	if (!(this instanceof SortedList)) return new SortedList(array, comparator);
+function SortedList(array, orderFunction) {
+	if (!(this instanceof SortedList)) return new SortedList(array, orderFunction);
 	if (typeof array === 'function') {
-		comparator = array;
+		orderFunction = array;
 		array = null;
 	}
 	definer(this)
 		.type('p', writableDescriptor)
 		.p('reversed', false)
-		.p('comparator', comparator || defaultComparator);
+		.p('_order', orderFunction || defaultOrderFunction);
 	List.call(this, array);
 }
 
@@ -26,7 +26,7 @@ definer(SortedList.prototype)
 	.type('m')
 
 	.m('constructor', SortedList)
-	.m('compare', compare)
+	.m('order', order)
 	.m('indexOf', indexOf)
 	.m('insert', insert)
 	.m('push', bulkInsert)
@@ -34,7 +34,7 @@ definer(SortedList.prototype)
 	.m('sort', sort)
 	.m('unshift', bulkInsert);
 
-function defaultComparator(a, b) {
+function defaultOrderFunction(a, b) {
 	if (typeof a !== typeof b) {
 		a += '';
 		b += '';
@@ -42,9 +42,9 @@ function defaultComparator(a, b) {
 	return a < b ? -1 : a > b ? 1 : 0;
 }
 
-function compare(a, b) {
-	var order = this.comparator(a, b);
-	return this.reversed ? order * -1 : order;
+function order(a, b) {
+	var direction = this._order(a, b);
+	return this.reversed ? direction * -1 : direction;
 }
 
 function indexOf(item) {
@@ -53,7 +53,7 @@ function indexOf(item) {
 	var index;
 	while (high > low) {
 		index = (high + low) / 2 >>> 0;
-		switch (this.compare(this[index], item)) {
+		switch (this.order(this[index], item)) {
 			case -1: low = index + 1; break;
 			case 1: high = index; break;
 			default: return index;
@@ -66,7 +66,7 @@ function insert(item) {
 	var i = this.length;
 	this[i] = item;
 	this.length++;
-	while (i && this.compare(item, this[i-1]) < 1) {
+	while (i && this.order(item, this[i-1]) < 1) {
 		this[i] = this[--i];
 		this[i] = item;
 	}
@@ -78,9 +78,9 @@ function bulkInsert() {
 	return this.length;
 }
 
-function sort(comparator) {
-	if (typeof comparator === 'function') this.comparator = comparator;
-	return listProto.sort.call(this, bind(this, 'compare'));
+function sort(orderFunction) {
+	if (typeof orderFunction === 'function') this._order = orderFunction;
+	return listProto.sort.call(this, bind(this, 'order'));
 }
 
 function reverse() {

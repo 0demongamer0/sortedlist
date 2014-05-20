@@ -21,9 +21,9 @@ function compare(a, b) {
 }
 
 /**
- * Custom comparator
+ * Custom order function.
  */
-function comparator(a, b) {
+function order(a, b) {
 	return a < b ? -1 : 1;
 }
 
@@ -43,16 +43,16 @@ describe('SortedList([array])', function () {
 		var list = new SortedList('cba'.split(''));
 		assert(compare(list, 'abc'.split('')));
 	});
-	it('should accept custom comparator as 1st argument', function () {
-		var list = new SortedList(comparator);
+	it('should accept custom order function as 1st argument', function () {
+		var list = new SortedList(order);
 		list.push('b', 'a', 'c');
 		assert(compare(list, 'abc'.split('')));
-		assert(list.comparator === comparator);
+		assert(list._order === order);
 	});
-	it('should accept custom comparator as 2nd argument', function () {
-		var list = new SortedList('cba'.split(''), comparator);
+	it('should accept custom order function as 2nd argument', function () {
+		var list = new SortedList('cba'.split(''), order);
 		assert(compare(list, 'abc'.split('')));
-		assert(list.comparator === comparator);
+		assert(list._order === order);
 	});
 	it('should initialize with reversed false', function () {
 		var list = new SortedList();
@@ -66,28 +66,28 @@ describe('SortedList([array])', function () {
 	});
 });
 
-describe('#comparator(a, b) - default comparator', function () {
-	var comparator = new SortedList().comparator;
+describe('#_order(a, b) - default order function', function () {
+	var order = new SortedList()._order;
 	it('should return -1 when a < b', function () {
-		assert(comparator(1, 2) === -1);
+		assert(order(1, 2) === -1);
 	});
 	it('should return 1 when a > b', function () {
-		assert(comparator(2, 1) === 1);
+		assert(order(2, 1) === 1);
 	});
 	it('should return 0 otherwise', function () {
-		assert(comparator(1, 1) === 0);
+		assert(order(1, 1) === 0);
 	});
 	it('should place numbers before letters', function () {
-		assert(comparator(1, 'a') === -1);
+		assert(order(1, 'a') === -1);
 	});
 });
 
-describe('#compare(a, b)', function () {
+describe('#order(a, b)', function () {
 	it('should flip the result when #reversed === true', function () {
 		var list = new SortedList();
-		assert(list.compare(1, 2) === -1 && list.compare(2, 1) === 1 && list.compare(1, 1) === 0);
+		assert(list.order(1, 2) === -1 && list.order(2, 1) === 1 && list.order(1, 1) === 0);
 		list.reverse();
-		assert(list.compare(1, 2) === 1 && list.compare(2, 1) === -1 && list.compare(1, 1) === 0);
+		assert(list.order(1, 2) === 1 && list.order(2, 1) === -1 && list.order(1, 1) === 0);
 	});
 });
 
@@ -158,19 +158,19 @@ describe('#reverse()', function () {
 	});
 });
 
-describe('#sort([comparator])', function () {
+describe('#sort([orderFunction])', function () {
 	it('should sort a list', function () {
 		var list = new SortedList('ac'.split(''));
 		list[list.length++] = 'b';
 		list.sort();
 		assert(compare(list, 'abc'.split('')));
 	});
-	it('should replace comparator when one is passed', function () {
+	it('should replace order function when one is passed', function () {
 		var list = new SortedList('ac'.split(''));
 		list[list.length++] = 'b';
-		list.sort(comparator);
+		list.sort(order);
 		assert(compare(list, 'abc'.split('')));
-		assert(list.comparator === comparator);
+		assert(list._order === order);
 	});
 });
 

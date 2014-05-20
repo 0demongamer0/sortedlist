@@ -24,7 +24,7 @@ list.insert('d'); // remembers that list is reversed
 list.join(); // d,c,b,a
 ```
 
-With custom comparator:
+With custom order function:
 
 ```js
 var data = [
@@ -32,17 +32,17 @@ var data = [
 	{ name: 'Adam' },
 	{ name: 'Tomas' }
 ];
-var comparator = function comparator(a, b) {
+var order = function order(a, b) {
 	return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
 };
-var list = new SortedList(data, comparator);
+var list = new SortedList(data, order);
 
 console.log(list); // { name: 'Adam' }, { name: 'John' }, { name: 'Tomas' }
 ```
 
 ## API
 
-### SortedList([array], [comparator])
+### SortedList([array], [orderFunction])
 
 SortedList constructor. `new` keyword is optional.
 
@@ -54,11 +54,11 @@ Array, or an array-like like object to create a SortedList from.
 
 Can be `Array`, `List`, `NodeList`, `arguments`, ... everything that looks like `{ 0: 'foo', length: 1 }`.
 
-#### [comparator]
+#### [orderFunction]
 
 `Function`
 
-Function for comparing 2 items. Receives 2 arguments. Function has to:
+Function for ordering items. Receives 2 arguments. Function has to:
 
 - return `-1` when `a < b`
 - return `1` when `a > b`
@@ -67,7 +67,7 @@ Function for comparing 2 items. Receives 2 arguments. Function has to:
 Example:
 
 ```js
-function comparator(a, b) {
+function orderFunction(a, b) {
 	return a < b ? -1 : a > b ? 1 : 0;
 }
 ```
@@ -76,15 +76,15 @@ function comparator(a, b) {
 
 *Below are documented methods that are either new, or vary from their native behavior.*
 
-### #comparator(a, b)
+### #_order(a, b)
 
-Current comparator. Compares 2 items and returns `-1`, `1`, or `0` depending on an order.
+Current order function. Compares 2 items and returns `-1`, `1`, or `0` depending on an order.
 
-Comparator can be switched by `#sort()` method.
+Order function can be switched by `#sort()` method.
 
-### #compare(a, b)
+### #order(a, b)
 
-Uses `#comparator()` to compare items. Flips the order if `#reversed` is `true`.
+Uses `#_order()` to compare items. Flips the order if `#reversed` is `true`.
 
 ### #indexOf(item)
 
@@ -106,15 +106,15 @@ Reverses the list and flips the `#reversed` flag.
 
 `Boolean`
 
-Flag specifying whether the list is reversed or not. This flag is used by `#compare()` to return a proper sort order.
+Flag specifying whether the list is reversed or not. This flag is used by `#order()` to return a proper sort order.
 
-### #sort([comparator])
+### #sort([orderFunction])
 
-Sorts the list with current or new comparator. When comparator is passed, it'll replace the current `#comparator()`.
+Sorts the list with current or new order function. When `orderFunction` is passed, it'll replace the current `#_order()`.
 
-You can use this to resort the list when comparator is dynamic and something has changed
+You can use this to resort the list when `orderFunction` is dynamic and something has changed
 
-#### [comparator]
+#### [orderFunction]
 
 `Function`
 
@@ -127,7 +127,7 @@ Function that accepts 2 arguments, and returns the sort order. Function has to:
 Example:
 
 ```js
-function fomparator(a, b) {
+function order(a, b) {
 	return a < b ? -1 : a > b ? 1 : 0;
 }
 ```
