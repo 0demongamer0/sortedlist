@@ -2,7 +2,7 @@
   "name": "sortedlist",
   "repo": "darsain/sortedlist",
   "description": "Extends darsain/list to create a sorted list.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [
     "array",
     "list",
