@@ -2,7 +2,7 @@
 
 Extends [List](https://github.com/darsain/list) to create a sorted list.
 
-Read about [limitations here](https://github.com/darsain/list#limitations).
+Read about limitations here: [darsain/list#limitations](https://github.com/darsain/list#limitations).
 
 ## Install
 
