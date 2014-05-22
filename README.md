@@ -2,6 +2,8 @@
 
 Extends [List](https://github.com/darsain/list) to create a sorted list.
 
+Read about [limitations here](https://github.com/darsain/list#limitations).
+
 ## Install
 
 With [component(1)](https://github.com/component/component):
