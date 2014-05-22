@@ -27,7 +27,7 @@ function order(a, b) {
 	return a < b ? -1 : 1;
 }
 
-describe('SortedList([array])', function () {
+describe('SortedList([array], [orderFunction])', function () {
 	it('should inherit from List', function () {
 		var list = new SortedList();
 		assert(list instanceof SortedList);
