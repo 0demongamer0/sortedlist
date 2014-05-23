@@ -1,6 +1,6 @@
 # SortedList
 
-Extends [List](https://github.com/darsain/list) to create a sorted list.
+Extends [darsain/list](https://github.com/darsain/list) to create a sorted list.
 
 Read about limitations here: [darsain/list#limitations](https://github.com/darsain/list#limitations).
 
@@ -50,15 +50,13 @@ SortedList constructor. `new` keyword is optional.
 
 #### [array]
 
-`Object`
-
 Array, or an array-like like object to create a SortedList from.
 
 Can be `Array`, `List`, `NodeList`, `arguments`, ... everything that looks like `{ 0: 'foo', length: 1 }`.
 
-#### [orderFunction]
+If you want to have a SortedList of objects, pass the custom order function to the argument below.
 
-`Function`
+#### [orderFunction]
 
 Function for ordering items. Receives 2 arguments. Function has to:
 
@@ -74,9 +72,9 @@ function orderFunction(a, b) {
 }
 ```
 
-#### *Inherits all methods from [List](https://github.com/darsain/list)*
+#### *Inherits all methods from [List](https://github.com/darsain/list#api)*
 
-*Below are documented methods that are either new, or vary from their native behavior.*
+*Methods documented below are either new, or vary from their previous behavior.*
 
 ### #_order(a, b)
 
@@ -117,8 +115,6 @@ Sorts the list with current or new order function. When `orderFunction` is passe
 You can use this to resort the list when `orderFunction` is dynamic and something has changed
 
 #### [orderFunction]
-
-`Function`
 
 Function that accepts 2 arguments, and returns the sort order. Function has to:
 
