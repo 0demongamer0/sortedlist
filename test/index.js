@@ -3,24 +3,6 @@ var List = require('list');
 var SortedList = require('sortedlist');
 
 /**
- * Compares an array like objects.
- * @param {Object} a
- * @param {Object} b
- * @return {Boolean}
- */
-function compare(a, b) {
-	try {
-		if (a.length !== b.length) return false;
-		for (var i = 0; i < a.length; i++) {
-			if (a[i] !== b[i]) return false;
-		}
-	} catch (e) {
-		return false;
-	}
-	return true;
-}
-
-/**
  * Custom order function.
  */
 function order(a, b) {
@@ -41,17 +23,17 @@ describe('SortedList([array], [orderFunction])', function () {
 	});
 	it('should sort innitial data', function () {
 		var list = new SortedList('cba'.split(''));
-		assert(compare(list, 'abc'.split('')));
+		assert(list.join() === 'a,b,c');
 	});
 	it('should accept custom order function as 1st argument', function () {
 		var list = new SortedList(order);
 		list.push('b', 'a', 'c');
-		assert(compare(list, 'abc'.split('')));
+		assert(list.join() === 'a,b,c');
 		assert(list._order === order);
 	});
 	it('should accept custom order function as 2nd argument', function () {
 		var list = new SortedList('cba'.split(''), order);
-		assert(compare(list, 'abc'.split('')));
+		assert(list.join() === 'a,b,c');
 		assert(list._order === order);
 	});
 	it('should initialize with reversed false', function () {
@@ -62,7 +44,7 @@ describe('SortedList([array], [orderFunction])', function () {
 		var list = new List('abc'.split(''));
 		var keys = [];
 		for (var key in list) keys.push(key);
-		assert(compare(keys, ['0','1','2']));
+		assert(keys.join() === '0,1,2');
 	});
 });
 
@@ -109,7 +91,7 @@ describe('#insert(item)', function () {
 		var list = new SortedList('abcdefghijklmnopqrstuvwyz'.split(''));
 		var beforeLength = list.length;
 		list.insert('x');
-		assert(compare(list, 'abcdefghijklmnopqrstuvwxyz'.split('')));
+		assert(list.join('') === 'abcdefghijklmnopqrstuvwxyz');
 		assert(list.length === beforeLength + 1);
 	});
 	it('should return a new item index', function () {
@@ -127,14 +109,14 @@ describe('#push(item1, ..., itemN)', function () {
 		var list = new SortedList('abcdefghijklmnopqrstuvwyz'.split(''));
 		var beforeLength = list.length;
 		list.push('x');
-		assert(compare(list, 'abcdefghijklmnopqrstuvwxyz'.split('')));
+		assert(list.join('') === 'abcdefghijklmnopqrstuvwxyz');
 		assert(list.length === beforeLength + 1);
 	});
 	it('should sort-insert multiple items', function () {
 		var list = new SortedList('bcdefghijklmnopqrstuvwy'.split(''));
 		var beforeLength = list.length;
 		list.push('x', 'a', 'z');
-		assert(compare(list, 'abcdefghijklmnopqrstuvwxyz'.split('')));
+		assert(list.join('') === 'abcdefghijklmnopqrstuvwxyz');
 		assert(list.length === beforeLength + 3);
 	});
 	it('should return a new list length', function () {
@@ -148,7 +130,7 @@ describe('#reverse()', function () {
 	it('should reverse a list', function () {
 		var list = new SortedList('abc'.split(''));
 		list.reverse();
-		assert(compare(list, 'cba'.split('')));
+		assert(list.join() === 'c,b,a');
 	});
 	it('should flip #reversed flag', function () {
 		var list = new SortedList('ac'.split(''));
@@ -163,13 +145,13 @@ describe('#sort([orderFunction])', function () {
 		var list = new SortedList('ac'.split(''));
 		list[list.length++] = 'b';
 		list.sort();
-		assert(compare(list, 'abc'.split('')));
+		assert(list.join() === 'a,b,c');
 	});
 	it('should replace order function when one is passed', function () {
 		var list = new SortedList('ac'.split(''));
 		list[list.length++] = 'b';
 		list.sort(order);
-		assert(compare(list, 'abc'.split('')));
+		assert(list.join() === 'a,b,c');
 		assert(list._order === order);
 	});
 });
@@ -179,14 +161,14 @@ describe('#unshift(item1, ..., itemN)', function () {
 		var list = new SortedList('abcdefghijklmnopqrstuvwyz'.split(''));
 		var beforeLength = list.length;
 		list.unshift('x');
-		assert(compare(list, 'abcdefghijklmnopqrstuvwxyz'.split('')));
+		assert(list.join('') === 'abcdefghijklmnopqrstuvwxyz');
 		assert(list.length === beforeLength + 1);
 	});
 	it('should sort-insert multiple items', function () {
 		var list = new SortedList('bcdefghijklmnopqrstuvwy'.split(''));
 		var beforeLength = list.length;
 		list.unshift('x', 'a', 'z');
-		assert(compare(list, 'abcdefghijklmnopqrstuvwxyz'.split('')));
+		assert(list.join('') === 'abcdefghijklmnopqrstuvwxyz');
 		assert(list.length === beforeLength + 3);
 	});
 	it('should return a new list length', function () {
